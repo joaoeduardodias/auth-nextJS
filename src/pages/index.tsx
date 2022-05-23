@@ -13,7 +13,7 @@ const Home: NextPage = function () {
 
   return (
     <div className={styles.container}>
-      <form className={styles.content}>
+      <form onSubmit={handleSubmit} className={styles.content}>
         <input
           type="email"
           name="email"
@@ -30,9 +30,7 @@ const Home: NextPage = function () {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="button" onClick={handleSubmit}>
-          Enviar
-        </button>
+        <button type="submit">Entrar</button>
       </form>
     </div>
   )
