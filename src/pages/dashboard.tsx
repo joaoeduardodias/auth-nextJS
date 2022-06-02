@@ -1,5 +1,6 @@
 import { NextPage } from 'next'
 import { useContext, useEffect } from 'react'
+import { Can } from '../components/Can'
 import { AuthContext } from '../context/AuthContext'
 import { setupApiClient } from '../services/api'
 import { api } from '../services/apiClient'
@@ -9,13 +10,18 @@ const Dashboard: NextPage = function () {
   const { user } = useContext(AuthContext)
 
   useEffect(() => {
-    api
-      .get('/me')
-      .then((response) => console.log(response))
-      .catch((err) => console.log(err))
+    api.get('/me').catch((err) => console.log(err))
   }, [])
 
-  return <h1>Dashboard: {user?.email}</h1>
+  return (
+    <>
+      <h1>Dashboard: {user?.email}</h1>
+
+      <Can permissions={['metrics.list']}>
+        <div>Métricas</div>
+      </Can>
+    </>
+  )
 }
 
 export default Dashboard
@@ -23,8 +29,7 @@ export default Dashboard
 export const getServerSideProps = withSSRAuth(async (ctx) => {
   const apiClient = setupApiClient(ctx)
 
-  const response = await apiClient.get('/me')
-  console.log(response.data)
+  await apiClient.get('/me')
 
   return {
     props: {},
