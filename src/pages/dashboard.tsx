@@ -7,7 +7,7 @@ import { api } from '../services/apiClient'
 import { withSSRAuth } from '../utils/withSSRAuth'
 
 const Dashboard: NextPage = function () {
-  const { user } = useContext(AuthContext)
+  const { user, signOut } = useContext(AuthContext)
 
   useEffect(() => {
     api.get('/me').catch((err) => console.log(err))
@@ -16,6 +16,10 @@ const Dashboard: NextPage = function () {
   return (
     <>
       <h1>Dashboard: {user?.email}</h1>
+
+      <button type="button" onClick={signOut}>
+        Sign out
+      </button>
 
       <Can permissions={['metrics.list']}>
         <div>Métricas</div>
